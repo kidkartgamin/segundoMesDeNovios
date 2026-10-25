@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dos meses contigo ❤️💙</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rojo:#e3173e; --rojo-suave:#ff5c7a;
+    --azul:#1f6feb; --azul-suave:#5aa9ff;
+    --fondo:#0b0f24; --texto:#fdf2f5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Quicksand',system-ui,sans-serif;color:var(--texto);
+    background:var(--fondo);
+    background-image:
+      radial-gradient(circle at 10% 15%, rgba(227,23,62,.35), transparent 45%),
+      radial-gradient(circle at 90% 30%, rgba(31,111,235,.35), transparent 45%),
+      radial-gradient(circle at 20% 85%, rgba(31,111,235,.25), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(227,23,62,.25), transparent 40%);
+    background-attachment:fixed;min-height:100vh;overflow-x:hidden;
+  }
+  body.cerrado{overflow:hidden}
+
+  /* ---------- Pantalla de entrada ---------- */
+  #entrada{
+    position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:28px;text-align:center;padding:24px;
+    background:linear-gradient(135deg,#3a0613 0%,#0b0f24 50%,#06204f 100%);
+    transition:opacity 1.2s ease, visibility 1.2s;
+  }
+  #entrada.fuera{opacity:0;visibility:hidden}
+  #entrada h1{font-family:'Great Vibes',cursive;font-weight:400;font-size:clamp(3rem,10vw,6rem);
+    background:linear-gradient(90deg,var(--rojo-suave),#fff,var(--azul-suave));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 18px rgba(255,92,122,.35));}
+  #entrada p{font-size:1.15rem;opacity:.85;max-width:520px}
+  .corazon-btn{
+    position:relative;width:150px;height:150px;border:none;background:none;cursor:pointer;
+    animation:latido 1.3s ease-in-out infinite;
+  }
+  .corazon-btn svg{width:100%;height:100%;filter:drop-shadow(0 0 25px rgba(227,23,62,.6)) drop-shadow(0 0 40px rgba(31,111,235,.45))}
+  .corazon-btn span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:1rem;color:#fff;padding-bottom:12px;letter-spacing:.5px}
+  @keyframes latido{0%,100%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.08)}}
+
+  /* ---------- Corazones flotando ---------- */
+  #corazones{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+  .flota{position:absolute;bottom:-40px;animation:subir linear forwards;opacity:.8}
+  @keyframes subir{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
+
+  /* ---------- Cabecera ---------- */
+  header{position:relative;z-index:2;text-align:center;padding:70px 20px 30px}
+  header h2{font-family:'Great Vibes',cursive;font-weight:400;font-size:clamp(3rem,9vw,5.5rem);line-height:1.1}
+  header h2 .r{color:var(--rojo-suave);text-shadow:0 0 25px rgba(227,23,62,.6)}
+  header h2 .a{color:var(--azul-suave);text-shadow:0 0 25px rgba(31,111,235,.6)}
+  .sub{margin-top:14px;font-size:1.1rem;opacity:.9}
+  .lazo{display:flex;align-items:center;justify-content:center;gap:14px;margin:26px auto 0;max-width:420px}
+  .lazo i{flex:1;height:3px;border-radius:3px}
+  .lazo i:first-child{background:linear-gradient(90deg,transparent,var(--rojo))}
+  .lazo i:last-child{background:linear-gradient(90deg,var(--azul),transparent)}
+  .lazo b{font-size:1.8rem;animation:latido 1.6s infinite}
+  .carta{
+    position:relative;z-index:2;max-width:720px;margin:10px auto 40px;padding:28px 30px;
+    background:rgba(255,255,255,.06);backdrop-filter:blur(8px);border-radius:22px;
+    border:2px solid transparent;
+    background-clip:padding-box;box-shadow:0 0 0 2px rgba(227,23,62,.5),0 0 0 4px rgba(31,111,235,.45),0 20px 50px rgba(0,0,0,.4);
+    font-size:1.12rem;line-height:1.75;text-align:center
+  }
+  .carta .firma{font-family:'Great Vibes',cursive;font-size:2rem;margin-top:8px;color:var(--rojo-suave)}
+
+  /* ---------- Collage ---------- */
+  #collage{position:relative;z-index:2;columns:4 240px;column-gap:18px;padding:10px 22px 80px;max-width:1500px;margin:0 auto}
+  .foto{
+    break-inside:avoid;margin-bottom:18px;position:relative;cursor:zoom-in;
+    background:#fff;padding:8px 8px 10px;border-radius:6px;
+    box-shadow:0 10px 25px rgba(0,0,0,.45);
+    transform:rotate(var(--rot)) translateY(30px);opacity:0;
+    transition:transform .6s cubic-bezier(.2,.8,.2,1), opacity .6s, box-shadow .3s;
+  }
+  .foto.visible{opacity:1;transform:rotate(var(--rot)) translateY(0)}
+  .foto:hover{transform:rotate(0) scale(1.04);z-index:5}
+  .foto.roja{background:linear-gradient(160deg,#fff 70%,#ffd6de)}
+  .foto.azul{background:linear-gradient(160deg,#fff 70%,#d6e6ff)}
+  .foto.roja:hover{box-shadow:0 0 0 3px var(--rojo),0 18px 40px rgba(227,23,62,.55)}
+  .foto.azul:hover{box-shadow:0 0 0 3px var(--azul),0 18px 40px rgba(31,111,235,.55)}
+  .foto img,.foto video{display:block;width:100%;height:auto;border-radius:3px;background:#eee;min-height:120px}
+  .foto::after{position:absolute;bottom:-4px;right:6px;font-size:1.25rem}
+  .foto.roja::after{content:'❤️'}
+  .foto.azul::after{content:'💙'}
+  .foto .cinta{position:absolute;top:-10px;left:50%;width:70px;height:20px;transform:translateX(-50%) rotate(-4deg);opacity:.75;border-radius:2px}
+  .foto.roja .cinta{background:var(--rojo-suave)}
+  .foto.azul .cinta{background:var(--azul-suave)}
+  .play{position:absolute;top:16px;right:16px;background:rgba(0,0,0,.55);color:#fff;border-radius:20px;padding:3px 10px;font-size:.8rem;font-weight:700}
+
+  /* ---------- Visor ---------- */
+  #visor{position:fixed;inset:0;z-index:60;background:rgba(5,6,18,.94);display:none;align-items:center;justify-content:center}
+  #visor.abierto{display:flex}
+  #visor .contenido{max-width:92vw;max-height:88vh;display:flex}
+  #visor img,#visor video{max-width:92vw;max-height:88vh;border-radius:10px;
+    box-shadow:0 0 0 3px var(--rojo),0 0 0 6px var(--azul),0 0 60px rgba(227,23,62,.4)}
+  .vbtn{position:absolute;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:2rem;width:56px;height:56px;border-radius:50%;cursor:pointer;transition:background .2s}
+  .vbtn:hover{background:rgba(255,255,255,.25)}
+  #cerrar{top:18px;right:18px;font-size:1.6rem}
+  #ant{left:16px;top:50%;transform:translateY(-50%)}
+  #sig{right:16px;top:50%;transform:translateY(-50%)}
+  #contador{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);opacity:.7;font-size:.9rem}
+
+  /* ---------- Música ---------- */
+  #musica{position:fixed;bottom:20px;right:20px;z-index:40;display:flex;align-items:center;gap:10px;
+    background:linear-gradient(135deg,var(--rojo),var(--azul));border:none;color:#fff;
+    padding:12px 18px;border-radius:40px;cursor:pointer;font:600 .95rem 'Quicksand',sans-serif;
+    box-shadow:0 8px 25px rgba(0,0,0,.45)}
+  .barras{display:flex;gap:3px;align-items:flex-end;height:16px}
+  .barras i{width:3px;background:#fff;border-radius:2px;animation:eq 1s infinite ease-in-out}
+  .barras i:nth-child(2){animation-delay:.2s}.barras i:nth-child(3){animation-delay:.4s}.barras i:nth-child(4){animation-delay:.1s}
+  #musica.pausa .barras i{animation:none;height:4px}
+  @keyframes eq{0%,100%{height:4px}50%{height:16px}}
+
+  footer{position:relative;z-index:2;text-align:center;padding:30px 20px 100px;font-family:'Great Vibes',cursive;font-size:2.4rem}
+  footer .r{color:var(--rojo-suave)} footer .a{color:var(--azul-suave)}
+
+  @media (max-width:600px){
+    #collage{columns:2 140px;column-gap:10px;padding:10px 10px 80px}
+    .foto{padding:5px 5px 7px;margin-bottom:10px}
+    .carta{margin:10px 14px 30px;padding:22px 18px}
+    .vbtn{width:44px;height:44px;font-size:1.5rem}
+  }
+</style>
+</head>
+<body class="cerrado">
+
+<div id="corazones"></div>
+
+<section id="entrada">
+  <h1>Para mi amorcito</h1>
+  <p>Tengo algo muy especial para ti… toca el corazón 💌</p>
+  <button class="corazon-btn" id="abrir" aria-label="Abrir">
+    <svg viewBox="0 0 100 90">
+      <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#e3173e"/><stop offset="1" stop-color="#1f6feb"/></linearGradient></defs>
+      <path d="M50 88 C20 65 0 48 0 26 C0 11 12 0 26 0 C37 0 45 6 50 15 C55 6 63 0 74 0 C88 0 100 11 100 26 C100 48 80 65 50 88Z" fill="url(#g)"/>
+    </svg>
+    <span>Ábreme</span>
+  </button>
+</section>
+
+<header>
+  <h2><span class="r">Tú</span> &amp; <span class="a">yo</span></h2>
+  <p class="sub">Dos meses de novios · cada foto es un pedacito de nosotros</p>
+  <div class="lazo"><i></i><b>❤️💙</b><i></i></div>
+</header>
+
+<div class="carta">
+  Mi amor, estos dos meses a tu lado han sido los más bonitos.
+  Aquí guardé todos nuestros momentos: las risas, los abrazos, las salidas y cada una de las fotos y videos que me compartias que tanto me gustan.
+  Tu rojo y mi azul juntos se ven perfectos, igual que nosotros.
+  Gracias por elegirme cada día. Te amo muchísimo.
+  <div class="firma">— Tu novio 💙</div>
+</div>
+
+<main id="collage"></main>
+
+<footer><span class="r">Te amo</span> · <span class="a">hoy y siempre</span></footer>
+
+<button id="musica" class="pausa" title="Música"><span class="barras"><i></i><i></i><i></i><i></i></span><span id="mtexto">Vives en mí</span></button>
+
+<div id="visor">
+  <button class="vbtn" id="cerrar" aria-label="Cerrar">✕</button>
+  <button class="vbtn" id="ant" aria-label="Anterior">‹</button>
+  <div class="contenido" id="vcont"></div>
+  <button class="vbtn" id="sig" aria-label="Siguiente">›</button>
+  <div id="contador"></div>
+</div>
+
+<audio id="cancion" loop preload="auto"
+  src="src/song/Vives en mi - Soy luna  Luna y Matteo [Letra] - 𝐢𝐅𝐞𝐫𝐧𝐚𝐧𝐝𝐚.mp3"></audio>
+
+<script>
+const MEDIA = [["i", "src/img/Mi amorcito/Mi amorcito/00fe6365-7d87-4481-8f7d-6e831130f41e.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/012a85ec-7a2d-453d-b286-221ee4744915.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/01690116-0ceb-4ec4-81e2-36f5da1abdd1.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/023AC5A2-257B-44C3-9148-A7C950CAD88F.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/0324b2a9-b896-40e0-a49d-12d6ed5e19ea.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/03e697b8-f04f-4f1b-af50-21d3ecae8e2a.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/0644ac92-275f-49bb-97f7-7c7ee224e41b.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/08339998-f740-417d-8211-4dbc729cd874.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/08eff309-0114-407b-af1a-24d155f551ba.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/0a84e294-fb19-467f-aa08-6468155c9e82.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/0ae871ed-ea12-4b00-8eae-e8272f48d867.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/0bf4648c-5689-4ea1-8a05-c02fcbaeae52.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/0d026c26-8f3c-4bda-8bd0-b0d2440f5d07.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/0e0a3683-fc2b-427b-81ae-12caa3a0405e.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/0e77cf44-4bad-4a90-bb4c-2cf93b03e230.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/0ed833e9-a90a-46e2-8bf8-dc107696e191.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/106d25f4-e9fc-48d9-aa06-cc7e5bcf3faa.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/1191c8da-b17e-4de3-93f0-36eb498ed8e9.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/141bdb61-745e-4c62-9d5d-7b072b950d90.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/14525f0e-253f-4b35-8f7c-9554790b67a5.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/147b4037-2a60-4484-a05a-43820e2d65ec.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/149a1f13-b001-42c2-b71e-31aadb8ac049.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/14aaf7f2-080c-4db5-9d0a-73abceeb68b2.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/156d2699-7dc1-40c8-a2ec-0070450c0125.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/15e12b8c-a942-42c6-aabf-793d1e27adc4.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/1787544464.397184share.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/1787544468.846082share.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/17ed6817-f705-4bba-82af-44d6be74b54c.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/18e13530-06de-446e-972e-b07859d96229.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/1aa59a12-18ee-4ec7-bb5d-882041dd5dee.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/1ad7df92-ad2c-41ad-bf03-a7899bc90d46.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/1dd4aeb4-daa3-4d71-88d2-a9d6963edc69.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/1f610b6d-8c5f-4c29-8b58-1b9914fc8d5b.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/1fcf38aa-861b-4d9b-a535-d5da71b78529.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/1fd413b9-cfab-4507-9702-9c993be7714e.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/2057ef56-e3ca-4e78-93a6-ed2afe4e4e0c.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/205adaa9-268c-4772-8c3f-716cf40603ff.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/225d7547-3395-4ca9-9612-f29cb086de67.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/22a9e23e-5786-448d-8d31-08d0840635cc.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/262ac39d-f933-4139-b687-0eceb51c7adf.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/2672b84a-cbc4-443e-bc52-a0379655bb61.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/2868b493-2f8a-4f0b-b2aa-66f86d0a8953.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/28715d48-6ae7-4d3d-ae69-b0004362427b.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/293060bb-4aa0-40f9-95d8-70177f7bffb9.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/2a5741e0-129d-4dd7-a7df-5c25d08906a2.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/2ab2ac65-c6a6-49d3-a238-8e05f4fe0f7f.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/2bc3ad5d-57f0-4150-84b8-a2f2bac8aa8c.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/2d114c1c-2bc9-449e-9c19-5db6cb1ac490.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/2e66b861-d8ba-46bc-90db-eb9b168ae29e.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/2faad820-c1a7-4e03-9e99-59a126b36b47.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/306d5a06-30d7-4f5a-a1e9-ddf24788ed81.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/30da0fae-b253-46c9-b9c9-1bfd4dcaca4c.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/30f4e715-da1c-4257-ae40-27b9d9cc98f7.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/326c77f7-3be3-4305-b97a-117f75674d04.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/33a66eb5-27fc-43a6-8531-4783051ebe58.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/33bcf54e-e7fc-40a1-b63e-c2880fee7725.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/353b527e-20fc-4485-98d4-7c95e36bcebd 2.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/353b527e-20fc-4485-98d4-7c95e36bcebd.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/355e7884-6d85-4525-8353-03129293ab4f 2.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/355e7884-6d85-4525-8353-03129293ab4f.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/361f88a9-f5f5-438d-ae26-c335c5f859c6.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/36805928-06b1-4c70-8f9d-8d7a46424df5.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/378b3483-e347-4451-8ab3-6ea8dbb2659d.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/3837fc5b-9b6e-464d-9292-a114871fbaea.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/3977c775-c991-4dd4-ad91-6bc67aa109cc.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/39ea0835-fdd1-4573-9b83-ef86831bf3d9.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/3b1b2749-442f-4b7c-bdda-0c54ddd991b3.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/3bd1ba1f-74a6-490d-a81d-277c404ba0c4.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/3c4086e4-ae7a-43c6-ad10-19db551f0637.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/3d8ad1d2-837c-411b-b7f2-2f1890899d39.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/417d23ea-bab5-444b-8f1b-df3b1e322f95.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/4278649f-d336-49b2-bb93-8afae1dc719e.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/42e6420a-ef3c-4110-a0ed-774888a6bee7.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/448193b6-8b1e-4531-8898-3ff3281677c9.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/44c80d01-d52b-4188-9b65-83f0480d649c.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/45230cf9-7010-4184-bb11-4bc352edd26e.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/4533cacc-0aea-4146-a80e-f9fbce535cb6.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/463bd28b-b7fc-4e18-9dab-b20071d0024d.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/46d638b8-0729-4b14-aafd-d761c275923c.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/4703c1ac-27b7-45aa-b2d3-4827d466f5ad.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/4750de4c-86b5-4cfd-917a-d35d93b6cb03.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/47691dca-39cf-4461-92b2-60edd4f50b78.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/477dbf2d-09a0-443f-a793-afad2810c4e1.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/4789c9f2-e63d-4eca-aa19-18034d25fe6c 2.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/4789c9f2-e63d-4eca-aa19-18034d25fe6c.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/4938a40c-443c-48b0-a76e-b66faa204e6f.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/4984c97b-d18c-434b-bdb9-14c479db0c64.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/49a2f335-3a06-42af-a417-5d46a6ca69ca.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/4cac2865-f10b-4049-b1e2-5134213d4568.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/4ce8d7b6-2a99-4546-8cc6-e6f2957764ac.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/4db6d899-9ae2-457e-814a-62e6e7489ea0.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/4ea8421d-6684-4fd9-a2d8-1245040a99f0.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/4f1eae2d-3a03-4437-9512-ad7d96a7cbe0.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/4f3f312f-d65c-4661-b56f-461257e1ef2c.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/4f4bbade-2a1a-41cd-8c44-d03c903f34bc.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/4fa681be-30fd-4ff4-9117-10c2d5c01fca.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/515f6ff8-9443-4b7d-984c-26de4afc419d.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/52011c2d-b829-4a0f-8d22-7dc074ae9059.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/5392de1e-ecdb-4042-990d-e1b0c07e3121.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/53e6b9ca-3090-462e-9462-91ef4a827294.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/54465412-83e0-4312-a373-65012d23871c.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/545A25A7-D4B5-418B-B4FF-F15700C08F12.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/556e84e2-d4ac-499d-8199-c9be0760c31a.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/557b72da-afc7-4ff3-ba4c-1e060fa0dd71.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/584e0545-ca1b-4143-a45a-3f09d2cef83d.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/58865449-541c-45c2-86fb-046a45edfffa.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/5A723E58-9719-4DC9-BCDD-176588779952.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/5bf07180-ffda-46df-805c-8e679889d936 2.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/5bf07180-ffda-46df-805c-8e679889d936.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/5c2593bb-62b2-4cc6-95c6-910b33cc6ff6.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/5e1b418d-bc6e-40f7-a966-09da2c1ebfd2.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/5e270aa5-a541-4c2a-9ad0-8146623f1b57.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/5f04469e-08c1-45f2-a1a4-c1caef7e1132.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/5f0eb93b-2165-4480-a970-3ef57f29bc8f.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/5f1d2479-73dc-473b-8641-ba042b0ef0d2.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/5f3f1c18-2c30-46c8-a6ca-48ae4c3dd644 2.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/5f3f1c18-2c30-46c8-a6ca-48ae4c3dd644.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/605d9d6c-c71f-4c68-aa2e-e3357b45b698.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/63cb9516-0c16-42d8-89b5-d94cc9ec0a99.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/64c61ff8-6d66-44d0-a8e8-d88ffee8a6ed.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/6803b5a2-34da-4497-9b40-3a3486d03c13.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/698dba88-ba1a-46d2-84b2-7c9752d6a10c.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/6B74637F-24BB-4854-880F-55C696CCCB32.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/6a5a53b5-ad2d-434c-829d-dfa227b32bdf.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/6bd16dfb-a329-4ed9-a90f-37d998242294.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/6e246127-d48c-4c31-b976-7332fe32f083.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/6f68ca72-8058-4442-86fe-d9c039fa9c40.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/6f782919-c1b5-4489-8e67-5870cbffeeb5.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/6fca1554-ce21-4458-911e-4b024bc36c3d.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/7056d061-24f3-4f13-bd2d-1d24cbf439f1.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/72d1ba0f-0be0-4dec-8535-61b9f0e71af0.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/733249bf-3e72-4d2f-92b1-50ea7789fc7a.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/745f88e2-ee8d-4fc6-8493-200628dd0a78.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/75cdf6e1-8e37-4b83-bae7-f1736c69900a.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/76340927-6635-492d-bfe6-2d8b48b82c56.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/7761078c-22ab-4801-8a6a-6cfb23708b59.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/779e5dc5-507a-404c-8990-0f12d03c6731.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/77ff83bd-c4f7-42d6-abea-74e37bd8f460.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/790061cc-72a0-40fc-ac8f-7081378275c4.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/7a456e91-6f81-4ebb-94d6-bdb98ce1fa21.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/7a8c739c-3011-4bf0-be02-a92540f2aa76.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/7d3650f8-d415-42c2-a75a-b64dc237b18e.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/7d613014-e21a-4614-9993-dae5792ef3c1.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/7d7a4db9-1c5f-41da-9f67-768e0947251d.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/7eaa007e-2aea-41d6-97b6-e006960c164a.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/7fb6b070-9ecb-44aa-a116-4699d65464a8 2.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/7fb6b070-9ecb-44aa-a116-4699d65464a8.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/8117d2eb-1844-4099-81dd-400a0827f96b.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/81ad7b68-e136-4277-a5d6-29d856cf71b5.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/82eb78ba-d233-4da7-b97e-0d07b166c4ac.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/834d1854-e7ba-49ad-880c-eef489ff7f60.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/83955e4f-f457-44ac-b108-d04e3ecaaf6a.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/847c82ad-4791-45bb-b39e-677d9872a519.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/86ce5ffb-23e5-400c-aec5-d3de4561f06f.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/872e5f5a-a5ed-4423-93ea-a4fc74947358.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/8879e6d0-63d4-48ec-a68f-1f813f292633.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/88b70f45-9823-4672-8c36-c8e9e25e9ef0.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/8a18c4f0-a1bf-4699-9eae-4c21dc556e0a.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/8a810850-4317-451d-bb61-baa9e1a5142a.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/8b162949-db9f-4ef1-ba95-33618b8cd9c1.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/8c8f28ec-c9bd-41d6-9cdc-5c568ebb8eb1 2.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/8c8f28ec-c9bd-41d6-9cdc-5c568ebb8eb1.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/8cc5a0e5-6360-42d4-8c2c-f2663c3fc554.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/8fd5fbd0-871c-4b55-9a69-66159864d31a.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/9032887b-6c99-4d60-81ce-7f2219c0bc97.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/917ef8b9-acec-448c-a50d-3f92139fc3ac.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/926e9a63-fc8b-47e9-bb59-aa185256b5e5.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/93814e35-07b5-4e64-8bfa-fd987cd3edfc.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/99ed08f0-6a64-425b-bcc7-71af8175a545.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/9C28525B-6516-4BDE-96E7-0AA258B5732F.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/9a45b9f6-f6f2-4ac8-b1c2-fac99204cbaf 2.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/9a45b9f6-f6f2-4ac8-b1c2-fac99204cbaf.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/9a4bb8ab-781b-467b-8f83-887c79461df3.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/9a4f1729-0240-4405-80e0-21c428599455.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/9be1b232-1b3c-4009-b663-753601947d45.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/9dfbb1f8-2c4c-4b56-ae86-6a78dabe0c77.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/9ecda8e8-5319-4dac-87dd-8e04bfe6d697.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/9f0bbb34-a7c3-4f9d-b39d-f5ba1c11acab.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/9f517a1c-c7ed-4e54-8ef6-33e41f8e96d7.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/A8B5F182-F667-4DDD-9BB7-C960BFB8CA1A.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/C67BBE4D-240D-4100-B861-07D359DF292B.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/CBC46841-1795-4C97-9931-541D1D9398CA.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/F9CF5803-D65F-441D-A6DC-FD446A810DA1.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_1749.PNG"], ["i", "src/img/convertidas/IMG_1822.jpg"], ["i", "src/img/convertidas/IMG_1823.jpg"], ["i", "src/img/convertidas/IMG_2021.jpg"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2047.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2089.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2090.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2091.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2092.PNG"], ["i", "src/img/convertidas/IMG_2137.jpg"], ["i", "src/img/convertidas/IMG_2138.jpg"], ["i", "src/img/convertidas/IMG_2139.jpg"], ["i", "src/img/convertidas/IMG_2140.jpg"], ["i", "src/img/convertidas/IMG_2203.jpg"], ["i", "src/img/convertidas/IMG_2207.jpg"], ["i", "src/img/convertidas/IMG_2208.jpg"], ["i", "src/img/convertidas/IMG_2232.jpg"], ["i", "src/img/convertidas/IMG_2233.jpg"], ["i", "src/img/convertidas/IMG_2234.jpg"], ["i", "src/img/convertidas/IMG_2235.jpg"], ["i", "src/img/convertidas/IMG_2236.jpg"], ["i", "src/img/convertidas/IMG_2237.jpg"], ["i", "src/img/convertidas/IMG_2238.jpg"], ["i", "src/img/convertidas/IMG_2239.jpg"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2282.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2283.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2284.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2285.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2286.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2287.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2288.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2289.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2290.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2291.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2292.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2293.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2294.PNG"], ["i", "src/img/convertidas/IMG_2436.jpg"], ["i", "src/img/convertidas/IMG_2437.jpg"], ["i", "src/img/convertidas/IMG_2438.jpg"], ["i", "src/img/convertidas/IMG_2439.jpg"], ["i", "src/img/convertidas/IMG_2440.jpg"], ["i", "src/img/convertidas/IMG_2442.jpg"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2465.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2466.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2467.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2470.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_2471.PNG"], ["i", "src/img/convertidas/IMG_2520.jpg"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3196.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3197.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3198.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3199.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3200.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3201.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3202.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3203.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3229.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3236.PNG"], ["i", "src/img/convertidas/IMG_3283.jpg"], ["i", "src/img/convertidas/IMG_3284.jpg"], ["i", "src/img/convertidas/IMG_3285.jpg"], ["i", "src/img/convertidas/IMG_3286.jpg"], ["i", "src/img/convertidas/IMG_3287.jpg"], ["i", "src/img/convertidas/IMG_3288.jpg"], ["i", "src/img/convertidas/IMG_3289.jpg"], ["i", "src/img/convertidas/IMG_3291.jpg"], ["i", "src/img/convertidas/IMG_3292.jpg"], ["i", "src/img/convertidas/IMG_3293.jpg"], ["i", "src/img/convertidas/IMG_3294.jpg"], ["i", "src/img/convertidas/IMG_3295.jpg"], ["i", "src/img/convertidas/IMG_3296.jpg"], ["i", "src/img/convertidas/IMG_3297.jpg"], ["i", "src/img/convertidas/IMG_3298.jpg"], ["i", "src/img/convertidas/IMG_3299.jpg"], ["i", "src/img/convertidas/IMG_3300.jpg"], ["i", "src/img/convertidas/IMG_3301.jpg"], ["i", "src/img/convertidas/IMG_3321.jpg"], ["i", "src/img/convertidas/IMG_3322.jpg"], ["i", "src/img/convertidas/IMG_3323.jpg"], ["i", "src/img/convertidas/IMG_3324.jpg"], ["i", "src/img/convertidas/IMG_3326.jpg"], ["i", "src/img/convertidas/IMG_3328.jpg"], ["i", "src/img/convertidas/IMG_3501.jpg"], ["i", "src/img/convertidas/IMG_3502.jpg"], ["i", "src/img/convertidas/IMG_3503.jpg"], ["i", "src/img/convertidas/IMG_3504.jpg"], ["i", "src/img/convertidas/IMG_3505.jpg"], ["i", "src/img/convertidas/IMG_3506.jpg"], ["i", "src/img/convertidas/IMG_3545.jpg"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3572.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3573.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3576.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/IMG_3577.PNG"], ["i", "src/img/Mi amorcito/Mi amorcito/a09ac8b9-0990-4883-be68-93ec8076d03e.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/a1a09ae4-df6a-4532-bf3c-fe8d81bea0e9.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/a1e6b13f-48a3-4ba7-8400-25e6184fbdd4 2.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/a1e6b13f-48a3-4ba7-8400-25e6184fbdd4.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/a30b7361-602f-45f9-afbf-85797fec0e45.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/a392b741-7148-425f-bae1-e6ccdcf6fef3.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/a588a6bc-942c-4d0b-a7db-8202f674647d.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/a60946a8-3d29-48d5-9978-295815870c38.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/a720ea9a-1e3d-4209-8524-972a8427b2c7.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/a809c4bd-9027-4caf-9b33-87017597c581.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/ae73dfaf-d9c3-48f2-b79e-21a8b465e9b9.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/af10c111-36a3-423b-8f33-958d931b8ce1.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/afa0bf27-8409-4650-90c6-5c565caee18a.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/b05c5929-3aff-4bd7-8491-910f4d7b2176.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/b0c22248-bfde-47c9-b346-0f51aef99a65.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/b0e616eb-8b49-4ff1-884b-e570e2dff38c.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/b1b77144-fa58-49d7-ac9a-c360c8125edf.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/b38ebddd-31a8-49e9-9d8b-3f3f794b6151.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/b3a7b25a-74af-4903-95f8-db4c67421fef.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/b3bec637-e76c-447c-8be1-d78542c8215b.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/b3bedca1-a640-4bc9-b4ff-af8887f5fafd.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/b3f3ffdd-b163-4379-b837-c948abafd43f.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/b8a0903f-6bd6-4c6e-8f95-1806e5625b2e.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/ba1a3dd6-c6f1-4ed8-b2e7-a02fdd4c37a6.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/bcbd9429-1e91-47ab-8a81-7dbb59939b50.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/bce05b7b-a590-412e-ada3-3e1b8da1444c.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/bd0f94af-5db1-420a-8cbe-fdbbfa05fcc9.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/bd485a1d-9ff2-445e-8469-a6cc1459eb21.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/be011b8e-1a7b-486b-ad23-6389f28724f8.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/be6a8ce9-e4c2-4965-a369-656b232321c5.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/bfce3536-0b66-491d-a4cf-bc52a95d2718.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/c225a63a-124f-4e20-b84e-bd8862f5399c.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/c2b1d216-565a-49b2-bd02-431febe4c0b9.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/c612917a-ac16-4603-b093-b85156ed90ae 2.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/c612917a-ac16-4603-b093-b85156ed90ae.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/c6495608-aace-47af-95ad-d8e11a950d04.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/c904e1b5-4b2c-42b8-b6ff-8a118801bab2.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/caf2c469-2dae-4ce3-9939-07f375906161.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/cc1dde2d-97c6-4393-bd29-f2602d66f54a.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/ccf71c56-14b1-4e31-bb26-ae4b593b6ecd.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/cdf5e7b7-69cc-4cf4-981c-8170992d4dd4.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/cf59a415-cf38-4e3a-8f22-b408955d7818.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/cf988fe4-16e8-41ee-bfa5-656748b7f7b1.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/d049e196-ea3d-479d-bc9f-fc871ac5f6c5.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/d09695ca-09e5-493c-9c01-24a80f820fa3.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/d1f0c1dd-2e83-429e-a8b3-851539d11233.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/d25adfc2-b6ec-48f2-b1e4-a6d3bfa52f43.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/d2f4b4cc-5dfa-47b8-b9ea-735f850d3e49.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/d301b8cb-e3a0-4306-a915-cf606bb9c94c.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/d39f7e6e-dc02-4cbd-bc52-f68ad90b3388.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/d4fa6121-5e37-4705-a9ce-e5516b6b3fea.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/d5f0f939-7fa3-440a-a092-dd7070d1f9a3.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/d5fbedbb-b471-47d0-a3d4-e94946ddd29a.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/d7a4b636-2e42-4d15-8704-40896f5d91e0.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/d863bf7a-85c4-4850-a558-a650b97e5bbb.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/d911067d-6e9a-4e9f-96b4-65f01d10e307.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/d94d84dd-7792-4eab-b1c0-eaa20200dfb5.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/d969b91d-0327-4efb-9f8f-921537b9f52f.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/d9b9e341-4b42-494d-8456-412fd3097321 2.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/d9b9e341-4b42-494d-8456-412fd3097321.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/dc1068e6-92c2-4448-80ca-d9a5f63c3a59.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/dcb44132-38c9-49a6-ad40-95dec4a5e5de.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/dd6e7464-8491-4809-bf51-42aabb96d727.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/de2ba21e-d72f-4bd3-aa2f-f58af875db00.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/e106cd11-f803-449e-be9c-9126979b9e8c.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/e211b6e2-2a09-4f2b-b716-cf70c1acf6bf.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/e3c6eb0d-3745-443d-a8df-8d268c42da98.MP4"], ["v", "src/img/Mi amorcito/Mi amorcito/e3d4bd92-e847-423e-b2ce-4ccd1bc60aa5.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/e41892e0-09b4-40c8-b780-b33c3ccd6fe2.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/e555bf2e-011d-40a8-855b-0a78b75d01d2.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/e570ae07-3b6e-40b3-86d0-95fcc347df59.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/e6ace0cd-ab86-4a3f-90a2-4e80830e3795.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/e87eb7ff-a7ab-4eb8-8750-47e743003c6b.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/ea1adbde-bea7-435d-8e06-a42cf77749b3.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/eb5a5146-f246-450f-bf95-00d740b8c808.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/ebd9c335-2214-42d8-9972-29c52e4492c0 2.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/ebd9c335-2214-42d8-9972-29c52e4492c0.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/ecd7624e-9b7c-48bd-9d83-02736367451a.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/ee466838-cdbb-45c8-b45a-6a68d4d88129.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/eeea00ef-4061-43f5-b390-ced99e8d18f9.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/f0674dad-62cb-41e8-abe7-18f8343b7c7b.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/f1fef2ec-d09b-472e-af9b-d1f5b8bb9aa1.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/f2278a02-03b1-4ca9-ada0-037a4e727ec5.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/f3289d23-c52c-4788-b00b-e5bb0b1ccdcb.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/f3d49bed-0c98-4917-927a-baf876a33f1e.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/f50383c4-1200-478f-a339-4970a63c8580.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/f59543b4-c8f1-4153-abf1-e25cc904c39f.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/f5ce8099-7f89-4ee5-8999-8414da137610.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/fc0e9c12-f862-4cfb-ac05-d31bafbf57c3.JPG"], ["v", "src/img/Mi amorcito/Mi amorcito/fdaf9a4b-495d-4881-8ed1-effbc307e784.MP4"], ["i", "src/img/Mi amorcito/Mi amorcito/ff0db318-9b99-46ac-ae61-ecb6d386a72b.JPG"], ["i", "src/img/Mi amorcito/Mi amorcito/ff898e58-e0fa-4a9a-aa1b-f88684dc555a.JPG"], ["v", "src/img/convertidas/7e0c6b54196b434e9ad089659f5968af.mp4"], ["v", "src/img/convertidas/copy_EF86FB42-5BC8-416E-B06C-9BF0844E76AB.mp4"], ["v", "src/img/convertidas/IMG_2240.mp4"], ["v", "src/img/convertidas/IMG_2310.mp4"], ["v", "src/img/convertidas/IMG_2443.mp4"], ["v", "src/img/convertidas/IMG_2493.mp4"], ["v", "src/img/convertidas/IMG_2494.mp4"], ["v", "src/img/convertidas/IMG_3327.mp4"]];
+
+// Mezcla las fotos y videos para que el collage quede variado
+for (let i = MEDIA.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [MEDIA[i], MEDIA[j]] = [MEDIA[j], MEDIA[i]];
+}
+
+const url = p => encodeURI(p);
+const collage = document.getElementById('collage');
+const audio = document.getElementById('cancion');
+const btnMusica = document.getElementById('musica');
+
+// ---------- Construir collage ----------
+const aparecer = new IntersectionObserver(entradas => {
+  entradas.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); aparecer.unobserve(e.target); }
+  });
+}, { rootMargin: '100px' });
+
+const reproducir = new IntersectionObserver(entradas => {
+  entradas.forEach(e => {
+    const v = e.target;
+    if (e.isIntersecting) { v.play().catch(()=>{}); } else { v.pause(); }
+  });
+}, { threshold: 0.4 });
+
+MEDIA.forEach(([tipo, ruta], idx) => {
+  const t = document.createElement('figure');
+  t.className = 'foto ' + (idx % 2 ? 'azul' : 'roja');
+  t.style.setProperty('--rot', ((Math.random() * 6) - 3).toFixed(1) + 'deg');
+  t.innerHTML = '<span class="cinta"></span>';
+  if (tipo === 'v') {
+    const v = document.createElement('video');
+    v.src = url(ruta) + '#t=0.1';
+    v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'metadata';
+    t.appendChild(v);
+    const p = document.createElement('span'); p.className = 'play'; p.textContent = '▶ video';
+    t.appendChild(p);
+    v.onerror = () => t.remove();
+    reproducir.observe(v);
+  } else {
+    const im = document.createElement('img');
+    im.src = url(ruta); im.loading = 'lazy'; im.alt = 'Nosotros';
+    im.onerror = () => t.remove();
+    t.appendChild(im);
+  }
+  t.addEventListener('click', () => abrirVisor(idx));
+  collage.appendChild(t);
+  aparecer.observe(t);
+});
+
+// ---------- Entrada + música ----------
+document.getElementById('abrir').addEventListener('click', () => {
+  document.getElementById('entrada').classList.add('fuera');
+  document.body.classList.remove('cerrado');
+  audio.volume = 0;
+  audio.play().then(() => { btnMusica.classList.remove('pausa'); subirVolumen(0.8); }).catch(()=>{});
+  for (let i = 0; i < 40; i++) setTimeout(corazon, i * 60);
+});
+
+function subirVolumen(meta) {
+  const paso = () => {
+    if (audio.volume < meta - 0.02) { audio.volume = Math.min(meta, audio.volume + 0.04); setTimeout(paso, 80); }
+  };
+  paso();
+}
+
+btnMusica.addEventListener('click', () => {
+  if (audio.paused) { audio.play(); btnMusica.classList.remove('pausa'); }
+  else { audio.pause(); btnMusica.classList.add('pausa'); }
+});
+
+// ---------- Corazones rojos y azules ----------
+const capa = document.getElementById('corazones');
+function corazon() {
+  const c = document.createElement('div');
+  c.className = 'flota';
+  c.textContent = Math.random() < 0.5 ? '❤️' : '💙';
+  c.style.left = Math.random() * 100 + 'vw';
+  c.style.fontSize = (14 + Math.random() * 22) + 'px';
+  const d = 7 + Math.random() * 8;
+  c.style.animationDuration = d + 's';
+  capa.appendChild(c);
+  setTimeout(() => c.remove(), d * 1000);
+}
+setInterval(corazon, 700);
+
+// ---------- Visor ----------
+const visor = document.getElementById('visor');
+const vcont = document.getElementById('vcont');
+let actual = 0, musicaAntes = false;
+
+function abrirVisor(i) {
+  actual = (i + MEDIA.length) % MEDIA.length;
+  const [tipo, ruta] = MEDIA[actual];
+  vcont.innerHTML = '';
+  if (tipo === 'v') {
+    const v = document.createElement('video');
+    v.src = url(ruta); v.controls = true; v.autoplay = true; v.playsInline = true;
+    vcont.appendChild(v);
+    // baja la canción mientras ves el video con sonido
+    if (!audio.paused) { musicaAntes = true; audio.volume = 0.12; }
+  } else {
+    const im = document.createElement('img'); im.src = url(ruta);
+    vcont.appendChild(im);
+    if (musicaAntes) audio.volume = 0.8;
+  }
+  document.getElementById('contador').textContent = (actual + 1) + ' / ' + MEDIA.length;
+  visor.classList.add('abierto');
+}
+function cerrarVisor() {
+  visor.classList.remove('abierto'); vcont.innerHTML = '';
+  if (!audio.paused) audio.volume = 0.8;
+}
+document.getElementById('cerrar').onclick = cerrarVisor;
+document.getElementById('ant').onclick = e => { e.stopPropagation(); abrirVisor(actual - 1); };
+document.getElementById('sig').onclick = e => { e.stopPropagation(); abrirVisor(actual + 1); };
+visor.addEventListener('click', e => { if (e.target === visor) cerrarVisor(); });
+document.addEventListener('keydown', e => {
+  if (!visor.classList.contains('abierto')) return;
+  if (e.key === 'Escape') cerrarVisor();
+  if (e.key === 'ArrowLeft') abrirVisor(actual - 1);
+  if (e.key === 'ArrowRight') abrirVisor(actual + 1);
+});
+// deslizar en el celular
+let x0 = null;
+visor.addEventListener('touchstart', e => x0 = e.touches[0].clientX);
+visor.addEventListener('touchend', e => {
+  if (x0 === null) return;
+  const dx = e.changedTouches[0].clientX - x0;
+  if (Math.abs(dx) > 50) abrirVisor(actual + (dx < 0 ? 1 : -1));
+  x0 = null;
+});
+</script>
+</body>
+</html>
